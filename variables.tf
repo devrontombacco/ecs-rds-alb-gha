@@ -10,3 +10,9 @@ variable "vpc_name" {
   description = "vpc name"
   default     = "main-vpc"
 }
+
+variable "primary_az" {
+  type        = string
+  description = "primary availability zone"
+  default     = "eu-west-1a"
+}
