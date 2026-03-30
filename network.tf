@@ -6,6 +6,7 @@ resource "aws_vpc" "main-vpc" {
   }
 }
 
+
 resource "aws_internet_gateway" "igw" {
   vpc_id = aws_vpc.main-vpc.id
 
@@ -14,6 +15,7 @@ resource "aws_internet_gateway" "igw" {
   }
 }
 
+# PUBLIC SUBNETS 
 
 resource "aws_subnet" "public1" {
   vpc_id                  = aws_vpc.main.id
@@ -35,6 +37,8 @@ resource "aws_subnet" "public2" {
     Name = "${var.vpc_name}-public2"
   }
 }
+
+# PRIVATE SUBNETS 
 
 resource "aws_subnet" "private1" {
   vpc_id                  = aws_vpc.main.id
@@ -78,6 +82,7 @@ resource "aws_subnet" "private4" {
   }
 }
 
+# ROUTE TABLE (PUBLIC)  
 
 resource "aws_route_table" "rt-public" {
   vpc_id = aws_vpc.main-vpc.id
@@ -96,6 +101,8 @@ resource "aws_route_table" "rt-public" {
     Name = "${var.vpc_name}-rt-public"
   }
 }
+
+# ROUTE TABLE (PRIVATE)
 
 resource "aws_route_table" "rt-private-primaryaz" {
   vpc_id = aws_vpc.main-vpc.id
@@ -133,6 +140,8 @@ resource "aws_route_table" "rt-private-secondaryaz" {
   }
 }
 
+# ROUTE TABLE ASSOCIATIONS (PUBLIC) 
+
 resource "aws_route_table_association" "rt-public-assoc1" {
   subnet_id      = aws_subnet.public1.id
   route_table_id = aws_route_table.rt-public.id
@@ -142,6 +151,8 @@ resource "aws_route_table_association" "rt-public-assoc2" {
   subnet_id      = aws_subnet.public2.id
   route_table_id = aws_route_table.rt-public.id
 }
+
+# ROUTE TABLE ASSOCIATIONS (PRIVATE - PRIMARY AZ) 
 
 resource "aws_route_table_association" "rt-private-primaryaz-assoc1" {
   subnet_id      = aws_subnet.private1.id
@@ -153,18 +164,14 @@ resource "aws_route_table_association" "rt-private-primaryaz-assoc3" {
   route_table_id = aws_route_table.rt-private-primaryaz.id
 }
 
-resource "aws_route_table_association" "rt-private-primaryaz-assoc4" {
-  subnet_id      = aws_subnet.private4.id
-  route_table_id = aws_route_table.rt-private-primaryaz.id
-}
+# ROUTE TABLE ASSOCIATIONS (PRIVATE - SECONDARY AZ)
 
-
-resource "aws_route_table_association" "rt-private-secondaryaz-assoc1" {
+resource "aws_route_table_association" "rt-private-secondaryaz-assoc2" {
   subnet_id      = aws_subnet.private2.id
   route_table_id = aws_route_table.rt-private-secondaryaz.id
 }
 
-# resource "aws_route_table_association" "rt-private-secondaryaz-assoc5" {
-#   subnet_id      = aws_subnet.
-#   route_table_id = aws_route_table.rt-private-secondaryaz.id
-# }
+resource "aws_route_table_association" "rt-private-secondaryaz-assoc4" {
+  subnet_id      = aws_subnet.private4.id
+  route_table_id = aws_route_table.rt-private-secondaryaz.id
+}
