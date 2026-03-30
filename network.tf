@@ -132,3 +132,39 @@ resource "aws_route_table" "rt-private-secondaryaz" {
     Name = "${var.vpc_name}-rt-private-secondaryaz"
   }
 }
+
+resource "aws_route_table_association" "rt-public-assoc1" {
+  subnet_id      = aws_subnet.public1.id
+  route_table_id = aws_route_table.rt-public.id
+}
+
+resource "aws_route_table_association" "rt-public-assoc2" {
+  subnet_id      = aws_subnet.public2.id
+  route_table_id = aws_route_table.rt-public.id
+}
+
+resource "aws_route_table_association" "rt-private-primaryaz-assoc1" {
+  subnet_id      = aws_subnet.private1.id
+  route_table_id = aws_route_table.rt-private-primaryaz.id
+}
+
+resource "aws_route_table_association" "rt-private-primaryaz-assoc3" {
+  subnet_id      = aws_subnet.private3.id
+  route_table_id = aws_route_table.rt-private-primaryaz.id
+}
+
+resource "aws_route_table_association" "rt-private-primaryaz-assoc4" {
+  subnet_id      = aws_subnet.private4.id
+  route_table_id = aws_route_table.rt-private-primaryaz.id
+}
+
+
+resource "aws_route_table_association" "rt-private-secondaryaz-assoc1" {
+  subnet_id      = aws_subnet.private2.id
+  route_table_id = aws_route_table.rt-private-secondaryaz.id
+}
+
+# resource "aws_route_table_association" "rt-private-secondaryaz-assoc5" {
+#   subnet_id      = aws_subnet.
+#   route_table_id = aws_route_table.rt-private-secondaryaz.id
+# }
