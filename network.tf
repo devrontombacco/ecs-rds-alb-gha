@@ -186,3 +186,24 @@ resource "aws_eip" "eip2" {
   domain = "vpc"
 }
 
+# NAT Gateways
+
+resource "aws_nat_gateway" "nat1" {
+  allocation_id = aws_eip.eip1.id
+  subnet_id     = aws_subnet.public1.id
+  depends_on    = [aws_internet_gateway.igw]
+
+  tags = {
+    Name = "${var.vpc_name}-nat1"
+  }
+}
+
+resource "aws_nat_gateway" "nat2" {
+  allocation_id = aws_eip.eip2.id
+  subnet_id     = aws_subnet.public2.id
+  depends_on    = [aws_internet_gateway.igw]
+
+  tags = {
+    Name = "${var.vpc_name}-nat2"
+  }
+}
