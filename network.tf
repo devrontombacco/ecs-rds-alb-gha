@@ -175,3 +175,14 @@ resource "aws_route_table_association" "rt-private-secondaryaz-assoc4" {
   subnet_id      = aws_subnet.private4.id
   route_table_id = aws_route_table.rt-private-secondaryaz.id
 }
+
+# Elastic IPs for NAT Gateway
+
+resource "aws_eip" "eip1" {
+  domain = "vpc"
+}
+
+resource "aws_eip" "eip2" {
+  domain = "vpc"
+}
+
