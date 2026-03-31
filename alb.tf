@@ -8,4 +8,25 @@ resource "aws_lb_target_group" "tg" {
   target_type = "ip"
 }
 
-# 
+#  ALB 
+
+resource "aws_lb" "alb" {
+  name               = "${var.vpc_name}-alb"
+  internal           = false
+  load_balancer_type = "application"
+  security_groups    = [aws_security_group.sg-alb.id]
+  subnets            = [aws_subnet.public1.id, aws_subnet.public2.id]
+
+  enable_deletion_protection = false
+
+  # I will uncomment this in the future if I decide to add S3 bucket for logs
+  #   access_logs {
+  #     bucket  = aws_s3_bucket.lb_logs.id
+  #     prefix  = "test-lb"
+  #     enabled = true
+  #   }
+
+  tags = {
+    Name = "${var.vpc_name}-alb"
+  }
+}
