@@ -22,3 +22,9 @@ variable "secondary_az" {
   description = "secondary availability zone"
   default     = "eu-west-1b"
 }
+
+variable "domain_name" {
+  type        = string
+  description = "Domain for my app"
+  default     = "myawsproject.xyz"
+}
