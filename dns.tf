@@ -1,7 +1,14 @@
+# Route53 Hosted Zone
+
+data "aws_route53_zone" "main" {
+  name = var.domain_name
+}
+
+
 # ACM Cert
 
 resource "aws_acm_certificate" "cert" {
-  domain_name       = "myawsproject.xyz"
+  domain_name       = var.domain_name
   validation_method = "DNS"
 
   tags = {
@@ -24,7 +31,7 @@ resource "aws_route53_record" "cert_validation" {
     }
   }
 
-  zone_id = "Z0687581116E73SK0SFZ9"
+  zone_id = data.aws_route53_zone.main.id
   name    = each.value.name
   type    = each.value.type
   ttl     = 60
@@ -42,8 +49,8 @@ resource "aws_acm_certificate_validation" "cert" {
 # Route53 Record for ALB
 
 resource "aws_route53_record" "app" {
-  zone_id = "Z0687581116E73SK0SFZ9"
-  name    = "myawsproject.xyz"
+  zone_id = data.aws_route53_zone.main.id
+  name    = var.domain_name
   type    = "A"
 
   alias {
