@@ -26,3 +26,13 @@ resource "aws_ecs_task_definition" "service" {
     }
   ])
 }
+
+
+resource "aws_ecs_cluster" "cluster" {
+  name = "${var.vpc_name}-cluster"
+
+  setting {
+    name  = "containerInsights"
+    value = "enabled"
+  }
+}
