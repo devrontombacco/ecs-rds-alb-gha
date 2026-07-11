@@ -28,3 +28,23 @@ variable "domain_name" {
   description = "Domain for my app"
   default     = "myawsproject.xyz"
 }
+
+// DB VARIABLES
+
+variable "db_name" {
+  description = "PostgreSQL db name"
+  type        = string
+  default     = "appdb"
+}
+
+variable "db_username" {
+  description = "Master username for RDS instance"
+  type        = string
+  default     = "dbadmin"
+}
+
+variable "db_password" {
+  description = "Master password for RDS instance"
+  type        = string
+  sensitive   = true
+}
