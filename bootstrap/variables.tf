@@ -7,7 +7,5 @@ variable "aws_region" {
 variable "state_bucket_name" {
   description = "Globally-unique S3 bucket name for Project 9's remote Terraform state"
   type        = string
-  # No default on purpose — bucket names must be globally unique,
-  # set this explicitly in terraform.tfvars or via -var.
 }
 
