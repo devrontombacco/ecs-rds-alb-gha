@@ -1,5 +1,10 @@
-data "aws_ecr_repository" "flask_app" {
-  name = "FlaskApp1"
+resource "aws_ecr_repository" "flask_app" {
+  name                 = "project9-flask-app"
+  image_tag_mutability = "MUTABLE"
+
+  image_scanning_configuration {
+    scan_on_push = true
+  }
 }
 
 resource "aws_ecs_task_definition" "service" {
@@ -13,7 +18,7 @@ resource "aws_ecs_task_definition" "service" {
   container_definitions = jsonencode([
     {
       name      = "flask-app"
-      image     = "${data.aws_ecr_repository.flask_app.repository_url}:latest"
+      image     = "${aws_ecr_repository.flask_app.repository_url}:latest"
       essential = true
       portMappings = [
         {
