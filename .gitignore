@@ -4,3 +4,9 @@
 *.tfstate
 *.tfstate.*
 .terraform.lock.hcl
+
+# Python virtual environments
+myvenv/
+venv/
+__pycache__/
+*.pyc
