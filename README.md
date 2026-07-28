@@ -1,1 +1,0 @@
-# ecs-rds-alb-gha
