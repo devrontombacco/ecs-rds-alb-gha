@@ -8,7 +8,13 @@ Provision a 3-tier AWS architecture (ALB → ECS → RDS) entirely with Terrafor
 
 ## Architecture
 
-![Architecture diagram](architecture_diagram/architecture_diagram.png)
+This is the infra I am building out.
+
+![Architecture diagram](images/architecture_diagram.png)
+
+This is the CICD pipeline I will build with Github Actions (NB: not started yet. Soon though!)
+
+![CICD diagram](images/gh_workflow.png)
 
 ## Why this design
 
