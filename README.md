@@ -10,6 +10,13 @@ Provision a 3-tier AWS architecture (ALB → ECS → RDS) entirely with Terrafor
 
 ![Architecture diagram](architecture_diagram/architecture_diagram.png)
 
+## Why this design
+
+- **OIDC over static credentials** — avoids long-lived AWS keys in GitHub Actions secrets
+- **Multi-AZ RDS in private subnets** — mirrors how a real production database would be isolated and made resilient
+- **Remote state with locking** — practicing the workflow needed for team collaboration, not just solo scripting
+- **Plan-on-PR / apply-on-merge** — enforces review before infrastructure changes reach the live environment
+
 ## What's done
 
 - Full 3-tier infrastructure provisioned via Terraform (39 resources): networking, security groups, ALB, ECS, IAM, RDS
