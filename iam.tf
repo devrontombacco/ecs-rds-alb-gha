@@ -76,7 +76,7 @@ resource "aws_iam_role" "github_actions_deploy" {
             "token.actions.githubusercontent.com:aud" = "sts.amazonaws.com"
           }
           StringLike = {
-            "token.actions.githubusercontent.com:sub" = "repo:YOUR_GITHUB_USERNAME/YOUR_REPO_NAME:ref:refs/heads/main"
+            "token.actions.githubusercontent.com:sub" = "repo:devrontombacco/ecs-rds-alb-gha:ref:refs/heads/main"
           }
         }
       }
