@@ -17,3 +17,8 @@ Provision a 3-tier AWS architecture (ALB → ECS → RDS) entirely with Terrafor
 - Dockerized Flask app built and pushed to ECR
 - ECS service verified healthy behind the ALB (confirmed via target-group health check and direct load test)
 - DB password sourced securely via GitHub Actions secret (not committed to `.tfvars`)
+
+## What's left
+
+- [ ] GitHub Actions workflow: OIDC-based pipeline to apply Terraform and build/push the Docker image on merge, with `plan` on PR
+- [ ] CI validation for Terraform (`fmt`, `validate`, `plan` as PR checks)
