@@ -9,3 +9,11 @@ Provision a 3-tier AWS architecture (ALB → ECS → RDS) entirely with Terrafor
 ## Architecture
 
 ![Architecture diagram](architecture_diagram/architecture_diagram.png)
+
+## What's done
+
+- Full 3-tier infrastructure provisioned via Terraform (39 resources): networking, security groups, ALB, ECS, IAM, RDS
+- Remote state configured (S3 backend with native lockfile locking)
+- Dockerized Flask app built and pushed to ECR
+- ECS service verified healthy behind the ALB (confirmed via target-group health check and direct load test)
+- DB password sourced securely via GitHub Actions secret (not committed to `.tfvars`)
