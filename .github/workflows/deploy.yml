@@ -58,3 +58,7 @@ jobs:
         run: |
           terraform init
           terraform apply -auto-approve
+
+      - name: Login to Amazon ECR
+        id: ecr-login
+        uses: aws-actions/amazon-ecr-login@v2
