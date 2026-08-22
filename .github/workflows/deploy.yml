@@ -9,3 +9,12 @@ on:
 permissions:
   id-token: write
   contents: read
+
+env:
+  AWS_REGION: eu-west-1
+  ECR_REPOSITORY: project9-flask-app
+  ECS_CLUSTER: main-vpc-cluster
+  ECS_SERVICE: main-vpc-flask-app-service
+  ECS_TASK_DEFINITION_FAMILY: main-vpc-flask-app
+  CONTAINER_NAME: flask-app
+  TF_VAR_db_password: ${{ secrets.TF_VAR_DB_PASSWORD }}
