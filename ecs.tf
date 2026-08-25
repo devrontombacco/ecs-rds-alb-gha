@@ -65,4 +65,9 @@ resource "aws_ecs_service" "flask-App" {
     container_name   = "flask-app"
     container_port   = 5000
   }
+
+  deployment_circuit_breaker {
+    enable   = true
+    rollback = true
+  }
 }
