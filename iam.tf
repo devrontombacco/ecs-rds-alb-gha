@@ -317,6 +317,40 @@ resource "aws_iam_role_policy" "github_actions_deploy_policy" {
           "ec2:DescribeSecurityGroups"
         ]
         Resource = "*"
+      },
+      {
+        Sid    = "ALBReadFull"
+        Effect = "Allow"
+        Action = [
+          "elasticloadbalancing:DescribeTargetGroupAttributes",
+          "elasticloadbalancing:DescribeLoadBalancers"
+        ]
+        Resource = "*"
+      },
+      {
+        Sid    = "Route53ReadRecords"
+        Effect = "Allow"
+        Action = [
+          "route53:ListResourceRecordSets"
+        ]
+        Resource = "*"
+      },
+      {
+        Sid    = "IAMListAttachedRolePoliciesSelf"
+        Effect = "Allow"
+        Action = [
+          "iam:ListAttachedRolePolicies"
+        ]
+        Resource = aws_iam_role.github_actions_deploy.arn
+      },
+      {
+        Sid    = "EC2ReadRouteTablesAndNat"
+        Effect = "Allow"
+        Action = [
+          "ec2:DescribeRouteTables",
+          "ec2:DescribeNatGateways"
+        ]
+        Resource = "*"
       }
     ]
   })
