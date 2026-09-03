@@ -272,6 +272,51 @@ resource "aws_iam_role_policy" "github_actions_deploy_policy" {
           "ec2:DescribeAddressesAttribute"
         ]
         Resource = "*"
+      },
+      {
+        Sid    = "ALBReadTargetGroups"
+        Effect = "Allow"
+        Action = [
+          "elasticloadbalancing:DescribeTargetGroups"
+        ]
+        Resource = "*"
+      },
+      {
+        Sid    = "Route53ListTags"
+        Effect = "Allow"
+        Action = [
+          "route53:ListTagsForResource"
+        ]
+        Resource = "*"
+      },
+      {
+        Sid    = "IAMListAttachedRolePolicies"
+        Effect = "Allow"
+        Action = [
+          "iam:ListAttachedRolePolicies"
+        ]
+        Resource = [
+          aws_iam_role.ecs_task_execution_role.arn,
+          aws_iam_role.ecs_task_role.arn
+        ]
+      },
+      {
+        Sid    = "IAMGetRolePolicySelf"
+        Effect = "Allow"
+        Action = [
+          "iam:GetRolePolicy"
+        ]
+        Resource = aws_iam_role.github_actions_deploy.arn
+      },
+      {
+        Sid    = "EC2ReadNetworking"
+        Effect = "Allow"
+        Action = [
+          "ec2:DescribeInternetGateways",
+          "ec2:DescribeSubnets",
+          "ec2:DescribeSecurityGroups"
+        ]
+        Resource = "*"
       }
     ]
   })
