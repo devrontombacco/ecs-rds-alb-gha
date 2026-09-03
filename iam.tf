@@ -159,7 +159,8 @@ resource "aws_iam_role_policy" "github_actions_deploy_policy" {
           "s3:DeleteObject"
         ]
         Resource = "arn:aws:s3:::devron-project9-tfstate-677276118863/*"
-        }, {
+      },
+      {
         Sid    = "Route53Read"
         Effect = "Allow"
         Action = [
@@ -216,6 +217,59 @@ resource "aws_iam_role_policy" "github_actions_deploy_policy" {
         Action = [
           "ec2:DescribeVpcs",
           "ec2:DescribeAddresses"
+        ]
+        Resource = "*"
+      },
+      {
+        Sid    = "Route53GetZone"
+        Effect = "Allow"
+        Action = [
+          "route53:GetHostedZone"
+        ]
+        Resource = "*"
+      },
+      {
+        Sid    = "ACMListTags"
+        Effect = "Allow"
+        Action = [
+          "acm:ListTagsForCertificate"
+        ]
+        Resource = "arn:aws:acm:eu-west-1:677276118863:certificate/*"
+      },
+      {
+        Sid    = "ECRListTags"
+        Effect = "Allow"
+        Action = [
+          "ecr:ListTagsForResource"
+        ]
+        Resource = aws_ecr_repository.flask_app.arn
+      },
+      {
+        Sid    = "IAMListRolePolicies"
+        Effect = "Allow"
+        Action = [
+          "iam:ListRolePolicies"
+        ]
+        Resource = [
+          aws_iam_role.ecs_task_execution_role.arn,
+          aws_iam_role.ecs_task_role.arn,
+          aws_iam_role.github_actions_deploy.arn
+        ]
+      },
+      {
+        Sid    = "IAMGetSelfRole"
+        Effect = "Allow"
+        Action = [
+          "iam:GetRole"
+        ]
+        Resource = aws_iam_role.github_actions_deploy.arn
+      },
+      {
+        Sid    = "EC2VpcAndEipAttributes"
+        Effect = "Allow"
+        Action = [
+          "ec2:DescribeVpcAttribute",
+          "ec2:DescribeAddressesAttribute"
         ]
         Resource = "*"
       }
