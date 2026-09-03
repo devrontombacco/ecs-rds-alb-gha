@@ -360,6 +360,14 @@ resource "aws_iam_role_policy" "github_actions_deploy_policy" {
           "elasticloadbalancing:DescribeLoadBalancerAttributes"
         ]
         Resource = "*"
+      },
+      {
+        Sid    = "ALBReadListeners"
+        Effect = "Allow"
+        Action = [
+          "elasticloadbalancing:DescribeListeners"
+        ]
+        Resource = "*"
       }
     ]
   })
