@@ -159,6 +159,65 @@ resource "aws_iam_role_policy" "github_actions_deploy_policy" {
           "s3:DeleteObject"
         ]
         Resource = "arn:aws:s3:::devron-project9-tfstate-677276118863/*"
+        }, {
+        Sid    = "Route53Read"
+        Effect = "Allow"
+        Action = [
+          "route53:ListHostedZones"
+        ]
+        Resource = "*"
+      },
+      {
+        Sid    = "ACMRead"
+        Effect = "Allow"
+        Action = [
+          "acm:DescribeCertificate"
+        ]
+        Resource = "arn:aws:acm:eu-west-1:677276118863:certificate/*"
+      },
+      {
+        Sid    = "ECRDescribeRepo"
+        Effect = "Allow"
+        Action = [
+          "ecr:DescribeRepositories"
+        ]
+        Resource = aws_ecr_repository.flask_app.arn
+      },
+      {
+        Sid    = "ECSDescribeCluster"
+        Effect = "Allow"
+        Action = [
+          "ecs:DescribeClusters"
+        ]
+        Resource = "*"
+      },
+      {
+        Sid    = "IAMReadProjectRoles"
+        Effect = "Allow"
+        Action = [
+          "iam:GetRole"
+        ]
+        Resource = [
+          aws_iam_role.ecs_task_execution_role.arn,
+          aws_iam_role.ecs_task_role.arn
+        ]
+      },
+      {
+        Sid    = "IAMReadOIDCProvider"
+        Effect = "Allow"
+        Action = [
+          "iam:GetOpenIDConnectProvider"
+        ]
+        Resource = aws_iam_openid_connect_provider.github.arn
+      },
+      {
+        Sid    = "EC2ReadVpcAndEip"
+        Effect = "Allow"
+        Action = [
+          "ec2:DescribeVpcs",
+          "ec2:DescribeAddresses"
+        ]
+        Resource = "*"
       }
     ]
   })
