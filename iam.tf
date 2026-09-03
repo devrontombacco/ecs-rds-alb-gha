@@ -351,6 +351,15 @@ resource "aws_iam_role_policy" "github_actions_deploy_policy" {
           "ec2:DescribeNatGateways"
         ]
         Resource = "*"
+      },
+      {
+        Sid    = "ALBReadTagsAndAttributes"
+        Effect = "Allow"
+        Action = [
+          "elasticloadbalancing:DescribeTags",
+          "elasticloadbalancing:DescribeLoadBalancerAttributes"
+        ]
+        Resource = "*"
       }
     ]
   })
