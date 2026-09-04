@@ -76,7 +76,10 @@ resource "aws_iam_role" "github_actions_deploy" {
             "token.actions.githubusercontent.com:aud" = "sts.amazonaws.com"
           }
           StringLike = {
-            "token.actions.githubusercontent.com:sub" = "repo:devrontombacco/ecs-rds-alb-gha:ref:refs/heads/main"
+            "token.actions.githubusercontent.com:sub" = [
+              "repo:devrontombacco/ecs-rds-alb-gha:ref:refs/heads/main",
+              "repo:devrontombacco/ecs-rds-alb-gha:pull_request"
+            ]
           }
         }
       }
@@ -138,6 +141,241 @@ resource "aws_iam_role_policy" "github_actions_deploy_policy" {
           aws_iam_role.ecs_task_execution_role.arn,
           aws_iam_role.ecs_task_role.arn
         ]
+      },
+      {
+        Sid    = "TerraformStateBucketList"
+        Effect = "Allow"
+        Action = [
+          "s3:ListBucket"
+        ]
+        Resource = "arn:aws:s3:::devron-project9-tfstate-677276118863"
+      },
+      {
+        Sid    = "TerraformStateObjectAccess"
+        Effect = "Allow"
+        Action = [
+          "s3:GetObject",
+          "s3:PutObject",
+          "s3:DeleteObject"
+        ]
+        Resource = "arn:aws:s3:::devron-project9-tfstate-677276118863/*"
+      },
+      {
+        Sid    = "Route53Read"
+        Effect = "Allow"
+        Action = [
+          "route53:ListHostedZones"
+        ]
+        Resource = "*"
+      },
+      {
+        Sid    = "ACMRead"
+        Effect = "Allow"
+        Action = [
+          "acm:DescribeCertificate"
+        ]
+        Resource = "arn:aws:acm:eu-west-1:677276118863:certificate/*"
+      },
+      {
+        Sid    = "ECRDescribeRepo"
+        Effect = "Allow"
+        Action = [
+          "ecr:DescribeRepositories"
+        ]
+        Resource = aws_ecr_repository.flask_app.arn
+      },
+      {
+        Sid    = "ECSDescribeCluster"
+        Effect = "Allow"
+        Action = [
+          "ecs:DescribeClusters"
+        ]
+        Resource = "*"
+      },
+      {
+        Sid    = "IAMReadProjectRoles"
+        Effect = "Allow"
+        Action = [
+          "iam:GetRole"
+        ]
+        Resource = [
+          aws_iam_role.ecs_task_execution_role.arn,
+          aws_iam_role.ecs_task_role.arn
+        ]
+      },
+      {
+        Sid    = "IAMReadOIDCProvider"
+        Effect = "Allow"
+        Action = [
+          "iam:GetOpenIDConnectProvider"
+        ]
+        Resource = aws_iam_openid_connect_provider.github.arn
+      },
+      {
+        Sid    = "EC2ReadVpcAndEip"
+        Effect = "Allow"
+        Action = [
+          "ec2:DescribeVpcs",
+          "ec2:DescribeAddresses"
+        ]
+        Resource = "*"
+      },
+      {
+        Sid    = "Route53GetZone"
+        Effect = "Allow"
+        Action = [
+          "route53:GetHostedZone"
+        ]
+        Resource = "*"
+      },
+      {
+        Sid    = "ACMListTags"
+        Effect = "Allow"
+        Action = [
+          "acm:ListTagsForCertificate"
+        ]
+        Resource = "arn:aws:acm:eu-west-1:677276118863:certificate/*"
+      },
+      {
+        Sid    = "ECRListTags"
+        Effect = "Allow"
+        Action = [
+          "ecr:ListTagsForResource"
+        ]
+        Resource = aws_ecr_repository.flask_app.arn
+      },
+      {
+        Sid    = "IAMListRolePolicies"
+        Effect = "Allow"
+        Action = [
+          "iam:ListRolePolicies"
+        ]
+        Resource = [
+          aws_iam_role.ecs_task_execution_role.arn,
+          aws_iam_role.ecs_task_role.arn,
+          aws_iam_role.github_actions_deploy.arn
+        ]
+      },
+      {
+        Sid    = "IAMGetSelfRole"
+        Effect = "Allow"
+        Action = [
+          "iam:GetRole"
+        ]
+        Resource = aws_iam_role.github_actions_deploy.arn
+      },
+      {
+        Sid    = "EC2VpcAndEipAttributes"
+        Effect = "Allow"
+        Action = [
+          "ec2:DescribeVpcAttribute",
+          "ec2:DescribeAddressesAttribute"
+        ]
+        Resource = "*"
+      },
+      {
+        Sid    = "ALBReadTargetGroups"
+        Effect = "Allow"
+        Action = [
+          "elasticloadbalancing:DescribeTargetGroups"
+        ]
+        Resource = "*"
+      },
+      {
+        Sid    = "Route53ListTags"
+        Effect = "Allow"
+        Action = [
+          "route53:ListTagsForResource"
+        ]
+        Resource = "*"
+      },
+      {
+        Sid    = "IAMListAttachedRolePolicies"
+        Effect = "Allow"
+        Action = [
+          "iam:ListAttachedRolePolicies"
+        ]
+        Resource = [
+          aws_iam_role.ecs_task_execution_role.arn,
+          aws_iam_role.ecs_task_role.arn
+        ]
+      },
+      {
+        Sid    = "IAMGetRolePolicySelf"
+        Effect = "Allow"
+        Action = [
+          "iam:GetRolePolicy"
+        ]
+        Resource = aws_iam_role.github_actions_deploy.arn
+      },
+      {
+        Sid    = "EC2ReadNetworking"
+        Effect = "Allow"
+        Action = [
+          "ec2:DescribeInternetGateways",
+          "ec2:DescribeSubnets",
+          "ec2:DescribeSecurityGroups"
+        ]
+        Resource = "*"
+      },
+      {
+        Sid    = "ALBReadFull"
+        Effect = "Allow"
+        Action = [
+          "elasticloadbalancing:DescribeTargetGroupAttributes",
+          "elasticloadbalancing:DescribeLoadBalancers"
+        ]
+        Resource = "*"
+      },
+      {
+        Sid    = "Route53ReadRecords"
+        Effect = "Allow"
+        Action = [
+          "route53:ListResourceRecordSets"
+        ]
+        Resource = "*"
+      },
+      {
+        Sid    = "IAMListAttachedRolePoliciesSelf"
+        Effect = "Allow"
+        Action = [
+          "iam:ListAttachedRolePolicies"
+        ]
+        Resource = aws_iam_role.github_actions_deploy.arn
+      },
+      {
+        Sid    = "EC2ReadRouteTablesAndNat"
+        Effect = "Allow"
+        Action = [
+          "ec2:DescribeRouteTables",
+          "ec2:DescribeNatGateways"
+        ]
+        Resource = "*"
+      },
+      {
+        Sid    = "ALBReadTagsAndAttributes"
+        Effect = "Allow"
+        Action = [
+          "elasticloadbalancing:DescribeTags",
+          "elasticloadbalancing:DescribeLoadBalancerAttributes"
+        ]
+        Resource = "*"
+      },
+      {
+        Sid    = "ALBReadListeners"
+        Effect = "Allow"
+        Action = [
+          "elasticloadbalancing:DescribeListeners"
+        ]
+        Resource = "*"
+      },
+      {
+        Sid    = "ALBReadListenerAttributes"
+        Effect = "Allow"
+        Action = [
+          "elasticloadbalancing:DescribeListenerAttributes"
+        ]
+        Resource = "*"
       }
     ]
   })
